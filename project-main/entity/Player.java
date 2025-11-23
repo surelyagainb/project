@@ -39,8 +39,8 @@ public class Player extends Entity {
     }
 
     public void setDefaultValues() {
-        worldX = gp.tileSize * 22; 
-        worldY = gp.tileSize * 22;
+        worldX = gp.tileSize * 88; 
+        worldY = gp.tileSize * 2;
         speed = 1; 
         direction = "down";
     }
@@ -138,6 +138,9 @@ public class Player extends Entity {
                         gp.obj[i] = null;
                         hasKey--;
                     }
+                    break;
+                case "Chest":
+                    gp.obj[i] = null;
                     break;
                 default:
                     break;
