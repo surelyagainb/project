@@ -31,15 +31,15 @@ public class Player extends Entity {
         solidArea.y = 16;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y; 
-        solidArea.width = 24;  // smaller hitbox in order to fit in 2 solid objects
-        solidArea.height = 24; // smaller hitbox in order to fit in 2 solid objects
+        solidArea.width = 20;  // smaller hitbox in order to fit in 2 solid objects
+        solidArea.height = 20; // smaller hitbox in order to fit in 2 solid objects
 
         setDefaultValues();
         getPlayerImage();
     }
 
     public void setDefaultValues() {
-        worldX = gp.tileSize * 88; 
+        worldX = gp.tileSize * 97; 
         worldY = gp.tileSize * 2;
         speed = 1; 
         direction = "down";
@@ -141,6 +141,10 @@ public class Player extends Entity {
                     break;
                 case "Chest":
                     gp.obj[i] = null;
+                    break;
+                case "Boots":
+                    gp.obj[i] = null;
+                    speed++;
                     break;
                 default:
                     break;

@@ -70,7 +70,6 @@ public class GamePanel extends JPanel implements Runnable{
             update();
             //2 Draw the updated information
             repaint();
-            
             try {
                 double remainingTime = nextDrawTime - System.nanoTime();
                 remainingTime = remainingTime/10000000;
