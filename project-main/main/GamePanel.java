@@ -32,6 +32,7 @@ public class GamePanel extends JPanel implements Runnable{
     public CollisionChecker cChecker = new CollisionChecker(this);
     public AssetSetter aSetter = new AssetSetter(this);
     public Player player = new Player(this, keyH);
+    public Ui ui = new Ui(this);
     public SuperObject obj[] = new SuperObject[10];
 
     //Game State: pause, resume, etc.
@@ -109,6 +110,9 @@ public class GamePanel extends JPanel implements Runnable{
             }  
         }
         player.draw(g2); //put this below the tile if you want the player to be visible
+
+        ui.draw(g2);
+        
         g2.dispose();
         
     }
