@@ -26,10 +26,10 @@ public class NPC1 {
 
     public void getImage() {
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/npc/npc1_up_1.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/npc/npc1_down_1.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/npc/npc1_left_1.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/npc/npc1_right_1.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/yes/npc1_up_1.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/yes/npc1_down_1.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/yes/npc1_left_1.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/yes/npc1_right_1.png"));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
@@ -40,9 +40,8 @@ public class NPC1 {
     public void setDialogue() {
         dialogues[0][0] = "Hello there!";
         dialogues[0][1] = "It's a nice day to explore, isn't it?";
-        dialogues[0][2] = "Be careful of the monsters ahead!";
-        dialogues[0][3] = "If you need help, come talk to me again.";
-        dialogues[0][4] = "Good luck on your adventure!";
+        dialogues[0][2] = "If you need help, come talk to me again.";
+        dialogues[0][3] = "Good luck on your adventure!";
     }
 
     public void setAction() {
@@ -83,3 +82,4 @@ public class NPC1 {
         }
     }
 }
+
