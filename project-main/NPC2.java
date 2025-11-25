@@ -26,10 +26,10 @@ public class NPC2 {
 
     public void getImage() {
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/npc/npc2_up_1.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/npc/npc2_down_1.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/npc/npc2_left_1.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/npc/npc2_right_1.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/yes/npc2_up_1.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/yes/npc2_down_1.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/yes/npc2_left_1.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/yes/npc2_right_1.png"));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
@@ -38,12 +38,10 @@ public class NPC2 {
     }
 
     public void setDialogue() {
-        dialogues[0][0] = "He he ha, so you found me. I have some good stuff. Do you want to trade?";
-        dialogues[0][1] = "Come again, hehe!";
-        dialogues[0][2] = "You need more coin to buy that!";
-        dialogues[0][3] = "You can not carry any more!";
-        dialogues[0][4] = "You can not sell an equipped item!";
-    }
+        dialogues[0][0] = "He he ha, so you find me ";
+        dialogues[0][1] = "It's fun to go for adventure i wish i could do that too!! ";
+        dialogues[0][1] = "So Good luck to your journey!!";
+        dialogues[0][2] = "Come again, hehe!";
 
     public void setAction() {
         actionLockCounter++;
@@ -83,3 +81,4 @@ public class NPC2 {
         }
     }
 }
+
