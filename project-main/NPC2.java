@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Random;
 import javax.imageio.ImageIO;
 
+import main.GamePanel;;
+
 public class NPC2 {
 
     GamePanel gp;
@@ -42,6 +44,7 @@ public class NPC2 {
         dialogues[0][1] = "It's fun to go for adventure i wish i could do that too!! ";
         dialogues[0][1] = "So Good luck to your journey!!";
         dialogues[0][2] = "Come again, hehe!";
+    }
 
     public void setAction() {
         actionLockCounter++;
@@ -81,4 +84,3 @@ public class NPC2 {
         }
     }
 }
-
