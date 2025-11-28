@@ -28,10 +28,10 @@ public class NPC1 {
 
     public void getImage() {
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/yes/npc1_up_1.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/yes/npc1_down_1.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/yes/npc1_left_1.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/yes/npc1_right_1.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/yes/npc.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/yes/npc.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/yes/npc.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/yes/npc.png"));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException e) {
@@ -84,4 +84,5 @@ public class NPC1 {
         }
     }
 }
+
 
