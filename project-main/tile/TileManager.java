@@ -35,10 +35,6 @@ public class TileManager {
             tile[2].image = ImageIO.read(getClass().getResourceAsStream("/yes/tree.png"));
             tile[2].collision = true; // check the tile if you want to see the origin of collision
 
-            tile[3] = new Tile();
-            tile[3].image = ImageIO.read(getClass().getResourceAsStream("/yes/water.png"));
-            tile[3].collision = true; // check the tile if you want to see the origin of collision
-                     
         }catch(IOException e){
             e.printStackTrace();
         }

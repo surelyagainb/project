@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import tile.TileManager;
+import entity.NPC1;
 import entity.Player;
 import object.SuperObject;
 
@@ -34,6 +35,7 @@ public class GamePanel extends JPanel implements Runnable{
     public Player player = new Player(this, keyH);
     public Ui ui = new Ui(this);
     public SuperObject obj[] = new SuperObject[10];
+    public NPC1 npc = new NPC1(this);
 
     //Game State: pause, resume, etc.
     public int gameState;
@@ -110,6 +112,8 @@ public class GamePanel extends JPanel implements Runnable{
             }  
         }
         player.draw(g2); //put this below the tile if you want the player to be visible
+
+        npc.draw(g2);
 
         ui.draw(g2);
         
