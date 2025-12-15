@@ -8,6 +8,13 @@ public class KeyHandler implements KeyListener {
     GamePanel gp;
     public boolean upPressed, downPressed, leftPressed, rightPressed;
     boolean checkDrawTime = false;
+    public boolean interactPressed = false;
+    
+    // ADD THIS CONSTRUCTOR
+    public KeyHandler(GamePanel gp) {
+        this.gp = gp;
+    }
+    
     @Override
     public void keyTyped(KeyEvent e) {
         // Not used, but must be implemented
@@ -29,16 +36,11 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
             rightPressed = true;
         }
-        if (code == KeyEvent.VK_P){
-            if(gp.gameState == gp.playState){
-                gp.gameState = gp.pauseState;
-            }
-            else if(gp.gameState == gp.pauseState){
-                gp.gameState = gp.playState;
-            }
-        }
+        if (code == KeyEvent.VK_E) {
+    interactPressed = true;  // Just set the flag
+}
     }
-
+    
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
@@ -55,5 +57,8 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
             rightPressed = false;
         }
+        if (code == KeyEvent.VK_E) {
+    interactPressed = false;
+}
     }
 }

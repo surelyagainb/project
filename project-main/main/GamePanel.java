@@ -28,7 +28,7 @@ public class GamePanel extends JPanel implements Runnable{
     
     int FPS = 60;
     TileManager tileM = new TileManager(this); //Call the tile manager
-    KeyHandler keyH = new KeyHandler(); //Used for player movements
+    KeyHandler keyH = new KeyHandler(this); //Used for player movements
     Thread gameThread; 
     public CollisionChecker cChecker = new CollisionChecker(this);
     public AssetSetter aSetter = new AssetSetter(this);
@@ -66,12 +66,9 @@ public class GamePanel extends JPanel implements Runnable{
     @Override
     public void run(){
         while(gameThread != null){
-            double drawInterval = 1000000000/FPS; // 0.01666 seconds
+            double drawInterval = 1000000000/FPS; 
             double nextDrawTime = System.nanoTime() + drawInterval;
-            //System.out.println("the game is still running as intended");// checker if the program is running as intended use when you want to test if the game is running else don't use
-            //1 Update information such as the character positions
             update();
-            //2 Draw the updated information
             repaint();
             try {
                 double remainingTime = nextDrawTime - System.nanoTime();

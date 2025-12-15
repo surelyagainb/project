@@ -7,7 +7,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import main.GamePanel;
 import main.KeyHandler;
-import main.CollisionChecker;
 
 public class Player extends Entity {
 
@@ -17,7 +16,11 @@ public class Player extends Entity {
     public final int screenX;
     public final int screenY;
 
-    public int hasKey=0;
+    public int hasKey = 0;
+    public int coinCount = 0;
+    public boolean questCompleted = false;
+    int hasBoots=0;
+    int timer =0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
@@ -31,17 +34,18 @@ public class Player extends Entity {
         solidArea.y = 16;
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y; 
-        solidArea.width = 20;  // smaller hitbox in order to fit in 2 solid objects
-        solidArea.height = 20; // smaller hitbox in order to fit in 2 solid objects
+        solidArea.width = 20;
+        solidArea.height = 20;
+      
 
         setDefaultValues();
         getPlayerImage();
     }
 
     public void setDefaultValues() {
-        worldX = gp.tileSize * 97; 
+        worldX = gp.tileSize * 97;
         worldY = gp.tileSize * 2;
-        speed = 1; 
+        speed = 1;
         direction = "down";
     }
 
@@ -59,64 +63,66 @@ public class Player extends Entity {
             right1 = ImageIO.read(getClass().getResourceAsStream("/yes/right1.png"));
             right2 = ImageIO.read(getClass().getResourceAsStream("/yes/right2.png"));
             right3 = ImageIO.read(getClass().getResourceAsStream("/yes/right3.png"));
-        } 
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-        } 
+        }
     }
 
     public void update() {
-        if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+        // ---------------- NPC INTERACTION ----------------
+        if (keyH.interactPressed) {
+            keyH.interactPressed = false; // Reset the flag
             
-            if (keyH.upPressed) {
-                direction = "up";
-            } 
-            else if (keyH.downPressed) {
-                direction = "down";
-            } 
-            else if (keyH.leftPressed) {
-                direction = "left";
-            } 
-            else if (keyH.rightPressed) {
-                direction = "right";
+            // Check if player can interact with NPC
+            if (gp.cChecker.checkNPCInteraction(this, gp.npc)) {
+                gp.npc.interact(); // Let the NPC handle the interaction logic
             }
+        }
+        
+        timer++;
+        if(hasBoots>1 && timer > 20000){
+            hasBoots--;
+            timer=0;
+            speed--;
+        }
+
+        // ---------------- MOVEMENT ----------------
+        if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+            if (keyH.upPressed) direction = "up";
+            else if (keyH.downPressed) direction = "down";
+            else if (keyH.leftPressed) direction = "left";
+            else if (keyH.rightPressed) direction = "right";
 
             spriteCounter++;
-            if(spriteCounter > 60){
-                if(spriteNum == 1){
-                    spriteNum = 2;
-                    spriteCounter =0;
-                }
-                else if(spriteNum == 2){
-                    spriteNum = 3;
-                    spriteCounter =0;
-                }
-                else if(spriteNum == 3){
-                    spriteNum = 1;
-                    spriteCounter =0;
-                }
+            if (spriteCounter > 60) {
+                spriteNum++;
+                if (spriteNum > 3) spriteNum = 1;
+                spriteCounter = 0;
             }
-            //tile collision ito
-            collisionOn = false;
-            gp.cChecker.checkTile(this);
 
-            //object collision ito
+            collisionOn = false;
+
+            gp.cChecker.checkTile(this);
+            gp.cChecker.checkObject(this, true);
+            gp.cChecker.checkNPCCollision(this);
+            
             int objIndex = gp.cChecker.checkObject(this, true);
             pickUpObject(objIndex);
 
-            if (collisionOn == false) {
+            // ---------------- MOVEMENT ----------------
+            if (!collisionOn) {
                 switch (direction) {
-                    case "up":
-                        worldY -= speed;
+                    case "up": 
+                        worldY -= speed; 
                         break;
-                    case "down":
-                        worldY += speed;
+                    case "down": 
+                        worldY += speed; 
                         break;
-                    case "left":
-                        worldX -= speed;
+                    case "left": 
+                        worldX -= speed; 
                         break;
-                    case "right":
-                        worldX += speed;
+                    case "right": 
+                        worldX += speed; 
                         break;
                 }
             }
@@ -124,8 +130,7 @@ public class Player extends Entity {
     }
 
     public void pickUpObject(int i) {
-
-        if(i != 999){
+        if (i != 999) {
             String objectName = gp.obj[i].name;
 
             switch (objectName) {
@@ -135,13 +140,16 @@ public class Player extends Entity {
                     gp.ui.notif("You got a key!");
                     break;
                 case "Door":
-                    if(hasKey > 0){
-                        gp.ui.notif("Door opened!");
+                    if (!questCompleted) {
+                        gp.ui.notif("Finish the quest first!");
+                        return;
+                    }
+                    if (hasKey > 0) {
                         gp.obj[i] = null;
                         hasKey--;
-                    }
-                    else{
-                        gp.ui.notif("You need a key to open this!");
+                        gp.ui.notif("Door opened!");
+                    } else {
+                        gp.ui.notif("You need a key!");
                     }
                     break;
                 case "Chest":
@@ -152,8 +160,15 @@ public class Player extends Entity {
                     gp.ui.notif("Speed up!");
                     gp.obj[i] = null;
                     speed++;
+                    hasBoots++;
                     break;
-                default:
+                case "Coin":
+                    coinCount++;
+                    gp.obj[i] = null;
+                    gp.ui.notif("Coin: " + coinCount + "/6");
+                    if (coinCount >= 6) gp.ui.notif("Return to the NPC!");
+                    break;
+                default: 
                     break;
             }
         }
@@ -164,53 +179,27 @@ public class Player extends Entity {
 
         switch (direction) {
             case "up":
-                if(spriteNum == 1){
-                    image = up1;
-                }
-                if(spriteNum == 2){
-                    image = up2;
-                }
-                if(spriteNum == 3){
-                    image = up3;
-                }
+                if (spriteNum == 1) image = up1;
+                if (spriteNum == 2) image = up2;
+                if (spriteNum == 3) image = up3;
                 break;
             case "down":
-                if(spriteNum == 1){
-                    image = down1;
-                }
-                if(spriteNum == 2){
-                    image = down2;
-                }
-                if(spriteNum == 3){
-                    image = down3;
-                }
+                if (spriteNum == 1) image = down1;
+                if (spriteNum == 2) image = down2;
+                if (spriteNum == 3) image = down3;
                 break;
             case "left":
-                if(spriteNum == 1){
-                    image = left1;
-                }
-                if(spriteNum == 2){
-                    image = left2;
-                }
-                if(spriteNum == 3){
-                    image = left3;
-                }
+                if (spriteNum == 1) image = left1;
+                if (spriteNum == 2) image = left2;
+                if (spriteNum == 3) image = left3;
                 break;
             case "right":
-                if(spriteNum == 1){
-                    image = right1;
-                }
-                if(spriteNum == 2){
-                    image = right2;
-                }
-                if(spriteNum == 3){
-                    image = right3;
-                }
+                if (spriteNum == 1) image = right1;
+                if (spriteNum == 2) image = right2;
+                if (spriteNum == 3) image = right3;
                 break;
         }
 
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
     }
-
 }
-
