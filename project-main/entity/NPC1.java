@@ -34,8 +34,9 @@ public class NPC1 extends Entity {
             if (gp.player.coinCount < 6) {
                 gp.ui.notif("Collect 6 coins first!");
             } else {
-                gp.ui.notif("Quest complete! Door unlocked.");
+                gp.ui.notif("Quest complete! Reward is 1x Key!.");
                 gp.player.questCompleted = true;
+                gp.player.hasKey++;
             }
         } else {
             gp.ui.notif("You may open the door now.");
